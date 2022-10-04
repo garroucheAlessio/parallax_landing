@@ -1,8 +1,13 @@
 /** @type {import('tailwindcss').Config} */
+const plugin = require("tailwindcss/plugin");
+
 module.exports = {
   content: ['./index.html', './main.js'],
   theme: {
     extend: {
+      screens: {
+        xs:'425px'
+      },
       colors: {
         bkg: '#171819',
         muted: '#c9cbcf',
@@ -40,5 +45,20 @@ module.exports = {
         "6xl": ["clamp(2.57rem, calc(0.78rem + 8.95vw), 7.15rem)", "1"],
     }
   },
-  plugins: [],
+  plugins: [
+    plugin(( { addUtilities, theme }) => {
+      addUtilities({
+        ".fade-up": {
+          transition:
+            "transform 1s cubic-bezier(0.64, 0.04, 0.26, 0.87), opacity 0.8s cubic-bezier(0.64, 0.04, 0.26, 0.87)",
+          opacity: theme("opacity.0"),
+          transform: "translate3d(0, 2rem, 0)",
+        },
+        ".faded": {
+          opacity: theme("opacity.100"),
+          transform: "translate3d(0, 0, 0)",
+        },
+      });
+    })
+  ],
 }
